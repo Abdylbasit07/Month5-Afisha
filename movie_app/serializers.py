@@ -6,42 +6,46 @@ class DirectorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Director
-        fields = 'name '.split()
+        fields = 'id name movies_count'.split()
 
 class DirectorDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Director
-        fields = '__all__'
+        fields = 'id name'.split()
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    # director = DirectorSerializer()
 
     class Meta:
          model = Movie
-         fields = 'title'.split()
+         fields = 'id title'.split()
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
-    director = DirectorSerializer()
 
     class Meta:
         model = Movie
-        fields = 'id title director duration description'.split()
+        fields = 'id title duration description'.split()
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    # movie = MovieSerializer()
 
     class Meta:
         model = Review
-        fields = 'id text'.split()
+        fields = 'text'.split()
 
 
 class ReviewDetailSerializer(serializers.ModelSerializer):
-    movie = MovieSerializer()
 
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = 'id text stars'.split()
+
+
+class MovieReviewSerilizer(serializers.ModelSerializer):
+    movies_reviews = ReviewSerializer(many=True)
+
+    class Meta:
+        model = Movie
+        fields = 'id title movies_reviews rating'.split()

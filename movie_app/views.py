@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import DirectorSerializer, DirectorDetailSerializer, MovieSerializer, MovieDetailSerializer, ReviewSerializer, ReviewDetailSerializer
+from .serializers import DirectorSerializer, DirectorDetailSerializer, MovieSerializer, MovieDetailSerializer, ReviewSerializer, ReviewDetailSerializer, MovieReviewSerilizer
 from .models import Director, Movie, Review
 
 
@@ -49,5 +49,14 @@ def reviews_view(request):
 def reviews_detail_view(request, id):
     reviews = Review.objects.get(id=id)
     serializer = ReviewDetailSerializer(reviews)
+
+    return Response(data=serializer.data)
+
+
+
+@api_view(['GET'])
+def movies_reviews_view(request):
+    movre = Movie.objects.all()
+    serializer = MovieReviewSerilizer(movre, many=True)
 
     return Response(data=serializer.data)
